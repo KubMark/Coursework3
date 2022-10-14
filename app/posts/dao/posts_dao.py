@@ -32,11 +32,11 @@ class PostsDAO:
                           query.lower() in post['content'].lower()]
         return posts_by_query
 
-    def get_post_by_pk(self, pk):
+    def get_post_by_pk(self, post_id: str) -> dict:
         """
         возвращает пост по его идентификатору
         """
         posts = self.get_all()
         for post in posts:
-            if post['pk'] == pk:
+            if post['pk'] == post_id:
                 return post
