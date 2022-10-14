@@ -1,5 +1,5 @@
 import json
-
+from typing import List, Dict
 class PostsDAO:
 
     def __init__(self, path):
@@ -32,7 +32,7 @@ class PostsDAO:
                           query.lower() in post['content'].lower()]
         return posts_by_query
 
-    def get_post_by_pk(self, post_id: str) -> dict:
+    def get_post_by_pk(self, post_id: int) -> Dict:
         """
         возвращает пост по его идентификатору
         """
@@ -40,3 +40,15 @@ class PostsDAO:
         for post in posts:
             if post['pk'] == post_id:
                 return post
+
+    def load_comments(self, path="./data/comments.json") -> List[Dict]:
+        with open(path, encoding="utf-8") as file:
+            return json.load(file)
+
+    def get_comments_by_post_pk(self, post_pk: int) -> List[Dict]:
+        comments = self.load_comments()
+        post_comments = [comment for comment in comments if
+                         comment["post_id"] == post_pk]
+        if not post_comments:
+            raise ValueError("У поста нет комментариев")
+        return post_comments

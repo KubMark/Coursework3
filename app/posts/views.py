@@ -23,7 +23,9 @@ def get_posts_by_user(user_name):
 @posts_blueprint.route('/posts/<post_id>', methods=['get'])
 def get_post_by_id(post_id):
     post = posts_dao.get_post_by_pk(post_id)
-    return render_template('/post.html', post=post)
+    comments = posts_dao.get_comments_by_post_pk(post_id)
+    return render_template('post.html', post=post, title=post_id,
+                           comments=comments)
 
 
 @posts_blueprint.route('/search')
